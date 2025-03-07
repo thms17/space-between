@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@createjs/easeljs':
+        specifier: 2.0.0-beta.4
+        version: 2.0.0-beta.4
       '@finsweet/ts-utils':
         specifier: ^0.40.0
         version: 0.40.0
+      gsap:
+        specifier: ^3.12.7
+        version: 3.12.7
     devDependencies:
       '@changesets/changelog-git':
         specifier: ^0.2.0
@@ -118,6 +124,15 @@ packages:
 
   '@changesets/write@0.3.2':
     resolution: {integrity: sha512-kDxDrPNpUgsjDbWBvUo27PzKX4gqeKOlhibaOXDJA6kuBisGqNHv/HwGJrAu8U/dSf8ZEFIeHIPtvSlZI1kULw==}
+
+  '@createjs/core@2.0.0-beta.4':
+    resolution: {integrity: sha512-+csRjNJozE+C+4JfPEOV7lL6czWHB/+hBpA/oY4JeuVwEsLisaTzwEvfDd6XUUeK3ldlU14RzxZZYD5fDx7gBw==}
+
+  '@createjs/easeljs@2.0.0-beta.4':
+    resolution: {integrity: sha512-jaZQ4qm71177xJ4NT1EAWNSf3eI5EfWvDHufJ9QaVMQxjW+eMkh8QTZg7U9jPwll/6l9XegSToZZokTYaPM59A==}
+
+  '@createjs/tweenjs@2.0.0-beta.4':
+    resolution: {integrity: sha512-8TBzHn76mKR0PSUcLx3qxfJSMysOdsgYbJFoG/YeH/ViTWBOwmGVeZr6SIylFbqGHLtUyXDQEvSa1enSGUT5XQ==}
 
   '@esbuild/aix-ppc64@0.24.2':
     resolution: {integrity: sha512-thpVCb/rhxE/BnMLQ7GReQLLN8q9qbHmI55F4489/ByVg2aQaQ6kbcLb6FHkocZzQhxc4gx0sCk0tJkKBFzDhA==}
@@ -705,6 +720,9 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
+  gsap@3.12.7:
+    resolution: {integrity: sha512-V4GsyVamhmKefvcAKaoy0h6si0xX7ogwBoBSs2CTJwt7luW0oZzC0LhdkyuKV8PJAXr7Yaj8pMjCKD4GJ+eEMg==}
+
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
@@ -1197,6 +1215,17 @@ snapshots:
       fs-extra: 7.0.1
       human-id: 1.0.2
       prettier: 2.8.8
+
+  '@createjs/core@2.0.0-beta.4': {}
+
+  '@createjs/easeljs@2.0.0-beta.4':
+    dependencies:
+      '@createjs/core': 2.0.0-beta.4
+      '@createjs/tweenjs': 2.0.0-beta.4
+
+  '@createjs/tweenjs@2.0.0-beta.4':
+    dependencies:
+      '@createjs/core': 2.0.0-beta.4
 
   '@esbuild/aix-ppc64@0.24.2':
     optional: true
@@ -1767,6 +1796,8 @@ snapshots:
   graceful-fs@4.2.11: {}
 
   graphemer@1.4.0: {}
+
+  gsap@3.12.7: {}
 
   has-flag@4.0.0: {}
 
