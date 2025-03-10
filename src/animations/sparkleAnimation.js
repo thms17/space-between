@@ -15,7 +15,7 @@ export function initSparkles() {
   canvas = document.createElement('canvas');
   canvas.id = 'sparkleCanvas';
   canvas.width = rect.width * 3;
-  canvas.height = rect.height * 4.8;
+  canvas.height = rect.height * 4.6;
   canvas.style.position = 'absolute';
   canvas.style.left = `${rect.left + window.scrollX}px`;
   canvas.style.top = `${rect.top + window.scrollY}px`;
@@ -47,7 +47,7 @@ function imageLoaded() {
   // 🌟 Starte kontinuierliches Funkeln mit weicherer Bewegung
   sparkleInterval = setInterval(
     () => {
-      addSparkles(4 + Math.floor(Math.random() * 3), canvas.width / 2, rect.height * 1.2, 0.8);
+      addSparkles(4 + Math.floor(Math.random() * 3), canvas.width / 2, rect.height * 1, 0.8);
     },
     300 + Math.random() * 300
   );
@@ -65,7 +65,7 @@ function tick(event) {
       continue;
     }
     sparkle.y += sparkle.vY * m;
-    sparkle.alpha = sparkle.alphaStart * Math.pow(sparkle.life / sparkle.lifeMax, 0.8);
+    sparkle.alpha = sparkle.alphaStart * Math.pow(sparkle.life / sparkle.lifeMax, 0.4);
   }
   stage.update(event);
 }
@@ -73,11 +73,11 @@ function tick(event) {
 function addSparkles(count, x, y, speed) {
   for (let i = 0; i < count; i++) {
     let sparkle = sprite.clone();
-    sparkle.x = x + (Math.random() * 20 - 10) + 5; // +5 verschiebt nach rechts
+    sparkle.x = x + (Math.random() * 20 - 10) + 9; // +5 verschiebt nach rechts
     sparkle.y = y;
     sparkle.alpha = sparkle.alphaStart = Math.random() * 0.8 + 0.5;
-    sparkle.scale = Math.random() * 1.5 + 0.8;
-    sparkle.life = sparkle.lifeMax = Math.random() * 120 + 80;
+    sparkle.scale = Math.random() * 1.2 + 0.6;
+    sparkle.life = sparkle.lifeMax = Math.random() * 160 + 100;
     sparkle.vY = (Math.random() * 1.5 + 0.5) * speed;
     sparkle.gotoAndPlay((Math.random() * sparkle.spriteSheet.getNumFrames()) | 0);
     spkls.addChild(sparkle);

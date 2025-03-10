@@ -13,3 +13,13 @@ a[href*='unicorn.studio'] {
   height: 100vh;
   z-index: 100;
 }
+
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
