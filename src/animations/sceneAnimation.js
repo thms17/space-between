@@ -90,8 +90,8 @@ export function animateScene() {
     });
 
     splitAnimation.to("[data-scene='left']", {
-      x: '-35vw',
-      scale: 1.54, // 30% kleiner als 2.2 (2.2 * 0.7)
+      x: '-90vw',
+      scale: 2.5,
       transformOrigin: 'center center',
       ease: 'power1.in',
     });
@@ -99,8 +99,8 @@ export function animateScene() {
     splitAnimation.to(
       "[data-scene='right']",
       {
-        x: '28vw',
-        scale: 1.26, // 30% kleiner als 1.8 (1.8 * 0.7)
+        x: '75vw',
+        scale: 2,
         transformOrigin: 'center center',
         ease: 'power1.in',
       },

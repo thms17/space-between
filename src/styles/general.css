@@ -4,16 +4,6 @@ a[href*='unicorn.studio'] {
   visibility: hidden !important;
 }
 
-#sparkleCanvas {
-  position: absolute;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 100;
-}
-
 html,
 body {
   overflow-x: hidden;
