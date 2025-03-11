@@ -3,6 +3,7 @@ import './animations/fix-left-positioning.js';
 
 import { animateBeam } from './animations/beamAnimation';
 import { animateBeamImage } from './animations/beamImageAnimation';
+import { animateHeroSection } from './animations/heroFadeIn.js';
 import { animateScene } from './animations/sceneAnimation';
 import { initSparkles } from './animations/sparkleAnimation.js';
 import { animateText } from './animations/textAnimations';
@@ -14,4 +15,5 @@ animateBeamImage();
 animateText();
 document.addEventListener('DOMContentLoaded', () => {
   initSparkles();
+  animateHeroSection();
 });

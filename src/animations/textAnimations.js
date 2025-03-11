@@ -54,7 +54,7 @@ export function animateText() {
     });
   });
 
-  mm.add('(min-width: 768px) and (max-width: 991px)', () => {
+  mm.add('(max-width: 991px)', () => {
     let heading = new SplitText("[text-animation='heading']", { type: 'words' });
 
     gsap.fromTo(

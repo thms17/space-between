@@ -12,13 +12,17 @@ export function animateScene() {
         start: 'top bottom',
         end: '200vh top',
         scrub: 1,
+        invalidateOnRefresh: true,
       },
     }
   );
 
   let mm = gsap.matchMedia();
 
-  // Ab 1200px
+  // **iOS Safari Detection**
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+  // 1200px+
   mm.add('(min-width: 1200px)', () => {
     let splitAnimation = gsap.timeline({
       scrollTrigger: {
@@ -26,6 +30,12 @@ export function animateScene() {
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
+        pin: isIOS, // **Pin auf Safari iOS aktivieren**
+        toggleActions: 'play reverse play reverse',
+        onEnterBack: () => splitAnimation.restart(), // **Animation neu starten**
+        onLeaveBack: () => splitAnimation.reverse(), // **Sauberes Zurückspulen**
+        invalidateOnRefresh: true,
+        refreshPriority: 1,
       },
     });
 
@@ -46,6 +56,8 @@ export function animateScene() {
       },
       '<'
     );
+
+    return () => splitAnimation.revert();
   });
 
   // 992px - 1199px
@@ -56,6 +68,12 @@ export function animateScene() {
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
+        pin: isIOS, // **Fix für Safari iOS**
+        toggleActions: 'play reverse play reverse',
+        onEnterBack: () => splitAnimation.restart(),
+        onLeaveBack: () => splitAnimation.reverse(),
+        invalidateOnRefresh: true,
+        refreshPriority: 1,
       },
     });
 
@@ -76,28 +94,41 @@ export function animateScene() {
       },
       '<'
     );
+
+    return () => splitAnimation.revert();
   });
 
-  // 768px - 991px → Szenen um 30% kleiner machen
-  mm.add('(min-width: 768px) and (max-width: 991px)', () => {
+  // 0px - 991px
+  mm.add('(max-width: 991px)', () => {
     let splitAnimation = gsap.timeline({
       scrollTrigger: {
         trigger: "[data-section='3d-shape']",
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
+        pin: isIOS,
+        toggleActions: 'play reverse play reverse',
+        onEnterBack: () => splitAnimation.restart(),
+        onLeaveBack: () => splitAnimation.reverse(),
+        invalidateOnRefresh: true,
+        refreshPriority: 1,
       },
     });
 
-    splitAnimation.to("[data-scene='left']", {
-      x: '-90vw',
-      scale: 2.5,
-      transformOrigin: 'center center',
-      ease: 'power1.in',
-    });
+    splitAnimation.fromTo(
+      "[data-scene='left']",
+      { scale: 1 },
+      {
+        x: '-90vw',
+        scale: 2.5,
+        transformOrigin: 'center center',
+        ease: 'power1.in',
+      }
+    );
 
-    splitAnimation.to(
+    splitAnimation.fromTo(
       "[data-scene='right']",
+      { scale: 1 },
       {
         x: '75vw',
         scale: 2,
@@ -106,5 +137,7 @@ export function animateScene() {
       },
       '<'
     );
+
+    return () => splitAnimation.revert();
   });
 }
