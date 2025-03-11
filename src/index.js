@@ -12,4 +12,6 @@ animateScene();
 animateBeam();
 animateBeamImage();
 animateText();
-initSparkles();
+document.addEventListener('DOMContentLoaded', () => {
+  initSparkles();
+});

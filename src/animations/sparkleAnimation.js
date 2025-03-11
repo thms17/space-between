@@ -2,6 +2,14 @@ import { Container, Shape, Sprite, SpriteSheet, Stage, Ticker } from '@createjs/
 
 let rect, stage, canvas, sprite, spkls, sparkleInterval;
 
+// Einheitliche Werte für alle Breakpoints
+let sparkleConfig = {
+  scale: 0.7,
+  speed: 0.6,
+  lifeMax: 100,
+  fadePower: 3,
+};
+
 export function initSparkles() {
   const sparkleSpan = document.getElementById('sparkle-placeholder');
   if (!sparkleSpan) {
@@ -9,7 +17,6 @@ export function initSparkles() {
     return;
   }
 
-  // 📌 `rect` speichern, damit es auch in anderen Funktionen verfügbar ist
   rect = sparkleSpan.getBoundingClientRect();
 
   canvas = document.createElement('canvas');
@@ -30,6 +37,7 @@ export function initSparkles() {
   img.src =
     'https://cdn.prod.website-files.com/67c8857960583da47e677a41/67cadfcd79e3e14dd41d5fa8_spritesheet_sparkle.png';
 }
+
 function imageLoaded() {
   const data = {
     images: [this],
@@ -44,10 +52,14 @@ function imageLoaded() {
   Ticker.timingMode = Ticker.RAF;
   Ticker.addEventListener('tick', tick);
 
-  // 🌟 Starte kontinuierliches Funkeln mit weicherer Bewegung
   sparkleInterval = setInterval(
     () => {
-      addSparkles(4 + Math.floor(Math.random() * 3), canvas.width / 2, rect.height * 1, 0.8);
+      addSparkles(
+        4 + Math.floor(Math.random() * 3),
+        canvas.width / 2,
+        rect.height * 1,
+        sparkleConfig.speed
+      );
     },
     300 + Math.random() * 300
   );
@@ -65,7 +77,8 @@ function tick(event) {
       continue;
     }
     sparkle.y += sparkle.vY * m;
-    sparkle.alpha = sparkle.alphaStart * Math.pow(sparkle.life / sparkle.lifeMax, 0.4);
+    sparkle.alpha =
+      sparkle.alphaStart * Math.pow(sparkle.life / sparkle.lifeMax, sparkleConfig.fadePower);
   }
   stage.update(event);
 }
@@ -73,11 +86,11 @@ function tick(event) {
 function addSparkles(count, x, y, speed) {
   for (let i = 0; i < count; i++) {
     let sparkle = sprite.clone();
-    sparkle.x = x + (Math.random() * 20 - 10) + 9; // +5 verschiebt nach rechts
+    sparkle.x = x + (Math.random() * 20 - 10) + 9;
     sparkle.y = y;
     sparkle.alpha = sparkle.alphaStart = Math.random() * 0.8 + 0.5;
-    sparkle.scale = Math.random() * 1.2 + 0.6;
-    sparkle.life = sparkle.lifeMax = Math.random() * 160 + 100;
+    sparkle.scale = (Math.random() * 1.2 + 0.6) * sparkleConfig.scale;
+    sparkle.life = sparkle.lifeMax = Math.random() * sparkleConfig.lifeMax + 80;
     sparkle.vY = (Math.random() * 1.5 + 0.5) * speed;
     sparkle.gotoAndPlay((Math.random() * sparkle.spriteSheet.getNumFrames()) | 0);
     spkls.addChild(sparkle);
