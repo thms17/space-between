@@ -1,12 +1,13 @@
 body {
   cursor: none;
 }
+/* Hauptcursor */
 .custom-cursor {
   position: fixed;
   top: 0;
   left: 0;
-  width: 24px; /* Größe des Cursors */
-  height: 24px;
+  width: 16px;
+  height: 16px;
   background: radial-gradient(
     circle,
     rgba(255, 255, 255, 1) 0%,
@@ -15,22 +16,42 @@ body {
   );
   border-radius: 50%;
   pointer-events: none;
-  mix-blend-mode: screen; /* Overlay für Glow */
+  mix-blend-mode: screen;
   opacity: 1;
   filter: blur(6px);
-  transition: opacity 0.3s ease-out;
   transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease-out;
   z-index: 9999;
 }
 
-/* .cursor-trail {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  background-color: #9555ff;
+/* Glow Effekt als separater Layer */
+.custom-cursor::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px; /* Größe des Glow */
+  height: 30px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(149, 85, 255, 1) 50%,
+    rgba(149, 85, 255, 0) 90%
+  );
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.8;
-  transform: scale(1);
-} */
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.1;
+  animation: glowPulse 1s infinite alternate ease-in-out;
+}
+
+/* Animation für sanften Glow-Puls */
+@keyframes glowPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.7;
+  }
+}
