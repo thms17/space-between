@@ -17,18 +17,34 @@ export function initSparkles() {
     return;
   }
 
-  rect = sparkleSpan.getBoundingClientRect();
+  function getRectWithRetry() {
+    rect = sparkleSpan.getBoundingClientRect();
+    if (!rect || rect.height === 0) {
+      setTimeout(getRectWithRetry, 50); // Falls noch nicht bereit, erneut versuchen
+    }
+  }
+  getRectWithRetry();
 
+  const existingCanvas = document.getElementById('sparkleCanvas');
+  if (existingCanvas) existingCanvas.remove();
+
+  // Neues Canvas erstellen
   canvas = document.createElement('canvas');
   canvas.id = 'sparkleCanvas';
-  canvas.width = rect.width * 3;
-  canvas.height = rect.height * 4.6;
+  canvas.width = 100;
+  canvas.height = 100;
   canvas.style.position = 'absolute';
-  canvas.style.left = `${rect.left + window.scrollX}px`;
-  canvas.style.top = `${rect.top + window.scrollY}px`;
-  canvas.style.pointerEvents = 'none';
+
+  // Das Canvas soll exakt dort starten, wo der Placeholder beginnt
+  const placeholderRect = sparkleSpan.getBoundingClientRect();
+  canvas.style.top = '0'; // Direkt an der oberen Kante des Placeholders ausrichten
+  canvas.style.left = '50%';
   canvas.style.transform = 'translateX(-50%)';
-  document.body.appendChild(canvas);
+  canvas.style.pointerEvents = 'none';
+  canvas.style.visibility = 'visible';
+
+  // Canvas in den Placeholder einfügen
+  sparkleSpan.appendChild(canvas);
 
   stage = new Stage(canvas);
 
@@ -39,6 +55,11 @@ export function initSparkles() {
 }
 
 function imageLoaded() {
+  if (!rect) {
+    console.error('❌ Konnte die Position von #sparkle-placeholder nicht bestimmen!');
+    return;
+  }
+
   const data = {
     images: [this],
     frames: { width: 21, height: 23, regX: 10, regY: 11 },
@@ -56,8 +77,8 @@ function imageLoaded() {
     () => {
       addSparkles(
         4 + Math.floor(Math.random() * 3),
-        canvas.width / 2,
-        rect.height * 1,
+        canvas.width / 2.4, // X-Wert bleibt in der Mitte des Canvas
+        22, // Y-Wert: Startpunkt direkt an der oberen Kante des Canvas
         sparkleConfig.speed
       );
     },
