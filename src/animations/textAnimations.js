@@ -81,7 +81,7 @@ export function animateText() {
 
       gsap.fromTo(
         splitParagraph.words,
-        { opacity: 0, y: 4, filter: 'blur(3px)' },
+        { opacity: 0, y: 2, filter: 'blur(3px)' },
         {
           opacity: 1,
           y: 0,
@@ -91,8 +91,8 @@ export function animateText() {
           stagger: 0.3,
           scrollTrigger: {
             trigger: paragraph,
-            start: 'top 85%',
-            end: 'top 20%', // Früher fertig
+            start: 'top 60%',
+            end: 'bottom 80%',
             scrub: 1.5,
             delay: i * 0.3,
           },
