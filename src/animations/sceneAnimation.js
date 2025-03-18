@@ -106,7 +106,6 @@ export function animateScene() {
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
-        pin: isIOS,
         toggleActions: 'play reverse play reverse',
         onEnterBack: () => splitAnimation.restart(),
         onLeaveBack: () => splitAnimation.reverse(),
