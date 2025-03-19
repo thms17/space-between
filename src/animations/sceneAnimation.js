@@ -19,10 +19,7 @@ export function animateScene() {
 
   let mm = gsap.matchMedia();
 
-  // **iOS Safari Detection**
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-  // **Breakpoint: 1200px+**
+  // **1200px+**
   mm.add('(min-width: 1200px)', () => {
     let splitAnimation = gsap.timeline({
       scrollTrigger: {
@@ -65,7 +62,7 @@ export function animateScene() {
     return () => splitAnimation.revert();
   });
 
-  // 992px - 1199px
+  // **992px - 1199px**
   mm.add('(max-width: 1199px)', () => {
     let splitAnimation = gsap.timeline({
       scrollTrigger: {
@@ -73,12 +70,17 @@ export function animateScene() {
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
-        pin: isIOS, // **Fix für Safari iOS**
         toggleActions: 'play reverse play reverse',
-        onEnterBack: () => splitAnimation.restart(),
-        onLeaveBack: () => splitAnimation.reverse(),
         invalidateOnRefresh: true,
         refreshPriority: 1,
+        onLeave: () => {
+          gsap.set("[data-scene='left']", { x: '-50vw', scale: 2.2 });
+          gsap.set("[data-scene='right']", { x: '40vw', scale: 1.8 });
+        },
+        onEnterBack: () => {
+          gsap.set("[data-scene='left']", { x: '-50vw', scale: 2.2 });
+          gsap.set("[data-scene='right']", { x: '40vw', scale: 1.8 });
+        },
       },
     });
 
@@ -103,7 +105,7 @@ export function animateScene() {
     return () => splitAnimation.revert();
   });
 
-  // 0px - 991px
+  // **0px - 991px**
   mm.add('(max-width: 991px)', () => {
     let splitAnimation = gsap.timeline({
       scrollTrigger: {
@@ -112,27 +114,28 @@ export function animateScene() {
         end: 'bottom bottom',
         scrub: 1,
         toggleActions: 'play reverse play reverse',
-        onEnterBack: () => splitAnimation.restart(),
-        onLeaveBack: () => splitAnimation.reverse(),
         invalidateOnRefresh: true,
         refreshPriority: 1,
+        onLeave: () => {
+          gsap.set("[data-scene='left']", { x: '-90vw', scale: 2.5 });
+          gsap.set("[data-scene='right']", { x: '75vw', scale: 2 });
+        },
+        onEnterBack: () => {
+          gsap.set("[data-scene='left']", { x: '-90vw', scale: 2.5 });
+          gsap.set("[data-scene='right']", { x: '75vw', scale: 2 });
+        },
       },
     });
 
-    splitAnimation.fromTo(
-      "[data-scene='left']",
-      { scale: 1 },
-      {
-        x: '-90vw',
-        scale: 2.5,
-        transformOrigin: 'center center',
-        ease: 'power1.in',
-      }
-    );
+    splitAnimation.to("[data-scene='left']", {
+      x: '-90vw',
+      scale: 2.5,
+      transformOrigin: 'center center',
+      ease: 'power1.in',
+    });
 
-    splitAnimation.fromTo(
+    splitAnimation.to(
       "[data-scene='right']",
-      { scale: 1 },
       {
         x: '75vw',
         scale: 2,
