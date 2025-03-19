@@ -54,7 +54,7 @@ export function animateScene() {
   }
 
   // **Breakpoints & Werte**
-  mm.add('(min-width: 1200px)', () => createSceneAnimation('-37vw', 2.2, '25vw', 1.8));
+  mm.add('(min-width: 1200px)', () => createSceneAnimation('-42vw', 2.2, '30vw', 1.8));
   mm.add('(max-width: 1199px)', () => createSceneAnimation('-50vw', 2.2, '40vw', 1.8));
   mm.add('(max-width: 991px)', () => createSceneAnimation('-90vw', 2.5, '75vw', 2));
 }
