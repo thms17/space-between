@@ -22,7 +22,7 @@ export function animateScene() {
   // **iOS Safari Detection**
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-  // 1200px+
+  // **Breakpoint: 1200px+**
   mm.add('(min-width: 1200px)', () => {
     let splitAnimation = gsap.timeline({
       scrollTrigger: {
@@ -30,12 +30,17 @@ export function animateScene() {
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
-        pin: isIOS, // **Pin auf Safari iOS aktivieren**
         toggleActions: 'play reverse play reverse',
-        onEnterBack: () => splitAnimation.restart(), // **Animation neu starten**
-        onLeaveBack: () => splitAnimation.reverse(), // **Sauberes Zurückspulen**
         invalidateOnRefresh: true,
         refreshPriority: 1,
+        onLeave: () => {
+          gsap.set("[data-scene='left']", { x: '-37vw', scale: 2.2 });
+          gsap.set("[data-scene='right']", { x: '25vw', scale: 1.8 });
+        },
+        onEnterBack: () => {
+          gsap.set("[data-scene='left']", { x: '-37vw', scale: 2.2 });
+          gsap.set("[data-scene='right']", { x: '25vw', scale: 1.8 });
+        },
       },
     });
 
