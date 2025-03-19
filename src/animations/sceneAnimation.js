@@ -19,132 +19,42 @@ export function animateScene() {
 
   let mm = gsap.matchMedia();
 
-  // **1200px+**
-  mm.add('(min-width: 1200px)', () => {
+  function createSceneAnimation(leftX, leftScale, rightX, rightScale) {
     let splitAnimation = gsap.timeline({
       scrollTrigger: {
         trigger: "[data-section='3d-shape']",
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
-        toggleActions: 'play reverse play reverse',
-        invalidateOnRefresh: true,
         refreshPriority: 1,
+        invalidateOnRefresh: true,
+        toggleActions: 'play reverse play reverse',
         onLeave: () => {
-          gsap.set("[data-scene='left']", { x: '-37vw', scale: 2.2 });
-          gsap.set("[data-scene='right']", { x: '25vw', scale: 1.8 });
+          // **Finale Positionen hart setzen**
+          gsap.set("[data-scene='left']", { x: leftX, scale: leftScale });
+          gsap.set("[data-scene='right']", { x: rightX, scale: rightScale });
         },
         onEnterBack: () => {
-          gsap.set("[data-scene='left']", { x: '-37vw', scale: 2.2 });
-          gsap.set("[data-scene='right']", { x: '25vw', scale: 1.8 });
+          // **Sicherstellen, dass GSAP beim Hochscrollen die richtige Position nimmt**
+          gsap.set("[data-scene='left']", { x: leftX, scale: leftScale });
+          gsap.set("[data-scene='right']", { x: rightX, scale: rightScale });
+          ScrollTrigger.refresh(); // **Forciere Update, falls GSAP es verschluckt**
         },
       },
     });
 
-    splitAnimation.to("[data-scene='left']", {
-      x: '-37vw',
-      scale: 2.2,
-      transformOrigin: 'center center',
-      ease: 'power1.in',
-    });
-
+    splitAnimation.to("[data-scene='left']", { x: leftX, scale: leftScale, ease: 'power1.in' });
     splitAnimation.to(
       "[data-scene='right']",
-      {
-        x: '25vw',
-        scale: 1.8,
-        transformOrigin: 'center center',
-        ease: 'power1.in',
-      },
+      { x: rightX, scale: rightScale, ease: 'power1.in' },
       '<'
     );
 
     return () => splitAnimation.revert();
-  });
+  }
 
-  // **992px - 1199px**
-  mm.add('(max-width: 1199px)', () => {
-    let splitAnimation = gsap.timeline({
-      scrollTrigger: {
-        trigger: "[data-section='3d-shape']",
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1,
-        toggleActions: 'play reverse play reverse',
-        invalidateOnRefresh: true,
-        refreshPriority: 1,
-        onLeave: () => {
-          gsap.set("[data-scene='left']", { x: '-50vw', scale: 2.2 });
-          gsap.set("[data-scene='right']", { x: '40vw', scale: 1.8 });
-        },
-        onEnterBack: () => {
-          gsap.set("[data-scene='left']", { x: '-50vw', scale: 2.2 });
-          gsap.set("[data-scene='right']", { x: '40vw', scale: 1.8 });
-        },
-      },
-    });
-
-    splitAnimation.to("[data-scene='left']", {
-      x: '-50vw',
-      scale: 2.2,
-      transformOrigin: 'center center',
-      ease: 'power1.in',
-    });
-
-    splitAnimation.to(
-      "[data-scene='right']",
-      {
-        x: '40vw',
-        scale: 1.8,
-        transformOrigin: 'center center',
-        ease: 'power1.in',
-      },
-      '<'
-    );
-
-    return () => splitAnimation.revert();
-  });
-
-  // **0px - 991px**
-  mm.add('(max-width: 991px)', () => {
-    let splitAnimation = gsap.timeline({
-      scrollTrigger: {
-        trigger: "[data-section='3d-shape']",
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1,
-        toggleActions: 'play reverse play reverse',
-        invalidateOnRefresh: true,
-        refreshPriority: 1,
-        onLeave: () => {
-          gsap.set("[data-scene='left']", { x: '-90vw', scale: 2.5 });
-          gsap.set("[data-scene='right']", { x: '75vw', scale: 2 });
-        },
-        onEnterBack: () => {
-          gsap.set("[data-scene='left']", { x: '-90vw', scale: 2.5 });
-          gsap.set("[data-scene='right']", { x: '75vw', scale: 2 });
-        },
-      },
-    });
-
-    splitAnimation.to("[data-scene='left']", {
-      x: '-90vw',
-      scale: 2.5,
-      transformOrigin: 'center center',
-      ease: 'power1.in',
-    });
-
-    splitAnimation.to(
-      "[data-scene='right']",
-      {
-        x: '75vw',
-        scale: 2,
-        transformOrigin: 'center center',
-        ease: 'power1.in',
-      },
-      '<'
-    );
-
-    return () => splitAnimation.revert();
-  });
+  // **Breakpoints & Werte**
+  mm.add('(min-width: 1200px)', () => createSceneAnimation('-37vw', 2.2, '25vw', 1.8));
+  mm.add('(max-width: 1199px)', () => createSceneAnimation('-50vw', 2.2, '40vw', 1.8));
+  mm.add('(max-width: 991px)', () => createSceneAnimation('-90vw', 2.5, '75vw', 2));
 }
